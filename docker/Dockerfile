@@ -1,7 +1,8 @@
 FROM node AS node
 WORKDIR /build
 
-RUN npm install -g pnpm
+# Enable corepack to use pnpm
+RUN corepack enable
 
 # Cache deps
 COPY package.json pnpm-lock.yaml ./
