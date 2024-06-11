@@ -20,9 +20,15 @@ pub struct Torrent {
 }
 
 #[derive(Serialize, Deserialize, Clone, PartialEq)]
+pub struct SearchResponse {
+  pub torrents: Vec<Torrent>,
+  pub next: usize,
+}
+
+#[derive(Serialize, Deserialize, Clone, PartialEq)]
 pub struct SearchQuery {
   pub q: String,
-  pub page: Option<usize>,
+  pub after: Option<usize>,
 }
 
 pub fn pretty_date(unix: u32) -> String {

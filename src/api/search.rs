@@ -1,9 +1,9 @@
 use crate::{
   api::api_wrapper,
   errors::AppError,
-  utils::{SearchQuery, Torrent},
+  utils::{SearchQuery, SearchResponse},
 };
 
-pub async fn search(form: &SearchQuery) -> Result<Vec<Torrent>, AppError> {
-  api_wrapper::<Vec<Torrent>, SearchQuery>(form).await
+pub async fn search(form: &SearchQuery) -> Result<SearchResponse, AppError> {
+  api_wrapper::<SearchResponse, SearchQuery>(form).await
 }

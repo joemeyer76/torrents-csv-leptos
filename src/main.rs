@@ -44,7 +44,7 @@ cfg_if! {
                     .route("/api/{tail:.*}", leptos_actix::handle_server_fns())
                     .service(Files::new("/pkg", format!("{site_root}/pkg")))
                     .service(Files::new("/assets", site_root))
-            .service(favicon)
+                    .service(favicon)
                     .service(css)
                     .leptos_routes(
                         leptos_options.to_owned(),

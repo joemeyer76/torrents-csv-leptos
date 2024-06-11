@@ -13,19 +13,12 @@ use phosphor_leptos::{CalendarBlank, Database, DownloadSimple};
 pub fn SearchActivity() -> impl IntoView {
   let query = use_query_map();
   let q = move || query.with(|q| q.get("q").cloned()).unwrap_or_default();
-  let page = move || {
-    query
-      .with(|q| q.get("page").and_then(|page| page.parse::<usize>().ok()))
-      .unwrap_or(1)
-  };
+  let after = move || query.with(|q| q.get("after").and_then(|after| after.parse::<usize>().ok()));
 
-  let torrents = create_resource(
-    move || (q(), page()),
-    move |(q, page)| async move {
-      let form = SearchQuery {
-        q,
-        page: Some(page),
-      };
+  let search_res = create_resource(
+    move || (q(), after()),
+    move |(q, after)| async move {
+      let form = SearchQuery { q, after };
       search(&form).await.ok()
     },
   );
@@ -47,29 +40,21 @@ pub fn SearchActivity() -> impl IntoView {
           view! { <Spinner/> }
       }>
         {move || {
-            torrents
+            search_res
                 .get()
                 .map(|res| match res {
                     None => {
                         view! { <div>{err_msg}</div> }
                     }
-                    Some(torrents) => {
-                        if !torrents.is_empty() {
+                    Some(res) => {
+                        if !res.torrents.is_empty() {
                             view! {
                               <div>
-                                <TorrentListings torrents=torrents.into()/>
-                                <div class="join grid grid-cols-2">
-                                  <Show when=move || { page() > 1 } fallback=|| view! { "" }>
-                                    <A
-                                      class="join-item btn btn-outline"
-                                      href=move || { format!("?q={}&page={}", q(), page() - 1) }
-                                    >
-                                      "Prev"
-                                    </A>
-                                  </Show>
+                                <TorrentListings torrents=res.torrents.into()/>
+                                <div class="join grid grid-cols-1">
                                   <A
                                     class="join-item btn btn-outline"
-                                    href=move || { format!("?q={}&page={}", q(), page() + 1) }
+                                    href=move || { format!("?q={}&after={}", q(), res.next) }
                                   >
                                     "Next"
                                   </A>
