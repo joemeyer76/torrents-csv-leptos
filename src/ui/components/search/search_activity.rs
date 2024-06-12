@@ -51,14 +51,20 @@ pub fn SearchActivity() -> impl IntoView {
                             view! {
                               <div>
                                 <TorrentListings torrents=res.torrents.into()/>
-                                <div class="join grid grid-cols-1">
-                                  <A
-                                    class="join-item btn btn-outline"
-                                    href=move || { format!("?q={}&after={}", q(), res.next) }
-                                  >
-                                    "Next"
-                                  </A>
-                                </div>
+                                {if let Some(next) = res.next {
+                                    view! {
+                                      <div class="join grid grid-cols-1">
+                                        <A
+                                          class="join-item btn btn-outline"
+                                          href=move || { format!("?q={}&after={}", q(), next) }
+                                        >
+                                          "Next"
+                                        </A>
+                                      </div>
+                                    }
+                                } else {
+                                    view! { <div></div> }
+                                }}
                               </div>
                             }
                         } else {

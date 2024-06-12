@@ -22,7 +22,7 @@ pub struct Torrent {
 #[derive(Serialize, Deserialize, Clone, PartialEq)]
 pub struct SearchResponse {
   pub torrents: Vec<Torrent>,
-  pub next: usize,
+  pub next: Option<usize>,
 }
 
 #[derive(Serialize, Deserialize, Clone, PartialEq)]
