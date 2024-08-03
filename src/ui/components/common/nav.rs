@@ -32,7 +32,7 @@ pub fn TopNav() -> impl IntoView {
                 class="input input-bordered w-24 md:w-auto join-item"
               />
               <Show
-                when=is_routing
+                when=move || is_routing.get()
                 fallback=|| {
                     view! {
                       <button type="submit" class="btn btn-square join-item">

@@ -82,7 +82,7 @@ pub fn SearchActivity() -> impl IntoView {
 #[component]
 fn TorrentListings(torrents: MaybeSignal<Vec<Torrent>>) -> impl IntoView {
   view! {
-    <For each=torrents key=|t| t.infohash.clone() let:child>
+    <For each=move || torrents.get() key=|t| t.infohash.clone() let:child>
       <TorrentListing torrent=child/>
     </For>
   }
