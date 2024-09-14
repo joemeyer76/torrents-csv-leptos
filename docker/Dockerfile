@@ -8,7 +8,7 @@ RUN corepack enable
 COPY package.json pnpm-lock.yaml ./
 RUN pnpm i
 
-FROM rustlang/rust:nightly-bullseye as builder
+FROM rustlang/rust:nightly-bullseye AS builder
 
 # Install cargo-binstall, which makes it easier to install other
 # cargo extensions like cargo-leptos
@@ -31,8 +31,8 @@ COPY --from=node /build/node_modules ./node_modules
 COPY --from=node /usr/local/bin /usr/local/bin
 
 # Build the release
-ENV LEPTOS_TAILWIND_VERSION=v3.3.6
-ENV LEPTOS_WASM_OPT_VERSION=version_117
+ENV LEPTOS_TAILWIND_VERSION v3.3.6
+ENV LEPTOS_WASM_OPT_VERSION version_117
 RUN cargo leptos build --release
 
 FROM debian:bullseye-slim
@@ -41,7 +41,7 @@ WORKDIR /app
 COPY --from=builder /build/target/release/tcl /app/
 COPY --from=builder /build/target/site /app/site
 
-ENV APP_ENVIRONMENT="production"
+ENV APP_ENVIRONMENT "production"
 ENV LEPTOS_SITE_ROOT "/app/site"
 ENV LEPTOS_SITE_ADDR "0.0.0.0:3000"
 
