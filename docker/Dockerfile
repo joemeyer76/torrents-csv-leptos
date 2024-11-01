@@ -10,6 +10,9 @@ RUN pnpm i
 
 FROM rustlang/rust:nightly-bullseye AS builder
 
+# Install upx
+RUN apt update && apt install -y upx-ucl
+
 # Install cargo-binstall, which makes it easier to install other
 # cargo extensions like cargo-leptos
 RUN wget https://github.com/cargo-bins/cargo-binstall/releases/latest/download/cargo-binstall-x86_64-unknown-linux-musl.tgz
@@ -32,8 +35,11 @@ COPY --from=node /usr/local/bin /usr/local/bin
 
 # Build the release
 ENV LEPTOS_TAILWIND_VERSION v3.3.6
-ENV LEPTOS_WASM_OPT_VERSION version_117
+ENV LEPTOS_WASM_OPT_VERSION version_119
 RUN cargo leptos build --release
+
+# Compress with upx
+RUN upx --best --lzma /build/target/release/tcl
 
 FROM debian:bullseye-slim
 WORKDIR /app
