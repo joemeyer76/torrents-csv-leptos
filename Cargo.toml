@@ -58,9 +58,11 @@ ssr = [
 
 [profile.wasm-release]
 inherits = "release"
-opt-level = 'z'
-lto = true
-codegen-units = 1
+debug = 0
+lto = "fat"
+strip = true      # Automatically strip symbols from the binary.
+opt-level = 3     # Optimize for speed, not size.
+codegen-units = 1 # Reduce parallel code generation.
 
 [package.metadata.cargo-all-features]
 denylist = ["actix-files", "actix-web", "leptos_actix"]
