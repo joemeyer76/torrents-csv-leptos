@@ -7,11 +7,12 @@ edition = "2021"
 crate-type = ["cdylib", "rlib"]
 
 [profile.release]
-debug = 0
-lto = "fat"
-strip = true      # Automatically strip symbols from the binary.
+debug = false
+lto = true
+strip = "none"      # Automatically strip symbols from the binary.
 opt-level = 3     # Optimize for speed, not size.
 codegen-units = 1 # Reduce parallel code generation.
+panic = "abort"
 
 # This profile significantly speeds up build time. If debug info is needed you can comment the line
 # out temporarily, but make sure to leave this in the main branch.
@@ -30,7 +31,7 @@ leptos_actix = { version = "0.6.15", optional = true }
 leptos_router = { version = "0.6.15" }
 log = "0.4"
 serde = { version = "1", features = ["derive"] }
-serde_json = { version = "1.0.128" }
+serde_json = { version = "1.0.134" }
 gloo-net = { version = "0.2", features = ["http"] }
 reqwest = { version = "0.11", features = ["json"] }
 #tracing = "0.1"
@@ -58,11 +59,13 @@ ssr = [
 
 [profile.wasm-release]
 inherits = "release"
-debug = 0
-lto = "fat"
-strip = true      # Automatically strip symbols from the binary.
+debug = false
+lto = true
+strip = "none"      # Automatically strip symbols from the binary.
 opt-level = 3     # Optimize for speed, not size.
 codegen-units = 1 # Reduce parallel code generation.
+incremental = false
+panic = "abort"
 
 [package.metadata.cargo-all-features]
 denylist = ["actix-files", "actix-web", "leptos_actix"]
