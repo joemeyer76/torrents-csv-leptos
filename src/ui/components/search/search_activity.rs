@@ -7,7 +7,7 @@ use human_bytes::human_bytes;
 use leptos::*;
 use leptos_meta::Title;
 use leptos_router::{use_query_map, A};
-use phosphor_leptos::{CalendarBlank, Database, DownloadSimple};
+use phosphor_leptos::{Icon, IconWeight, CALENDAR_BLANK, DATABASE, DOWNLOAD_SIMPLE};
 
 #[component]
 pub fn SearchActivity() -> impl IntoView {
@@ -34,44 +34,44 @@ pub fn SearchActivity() -> impl IntoView {
   };
 
   view! {
-    <Title text=title/>
+    <Title text=title />
     <main class="container mx-auto mt-6 px-4">
       <Suspense fallback=move || {
-          view! { <Spinner/> }
+        view! { <Spinner /> }
       }>
         {move || {
-            search_res
-                .get()
-                .map(|res| match res {
-                    None => {
-                        view! { <div>{err_msg}</div> }
-                    }
-                    Some(res) => {
-                        if !res.torrents.is_empty() {
-                            view! {
-                              <div>
-                                <TorrentListings torrents=res.torrents.into()/>
-                                {if let Some(next) = res.next {
-                                    view! {
-                                      <div class="join grid grid-cols-1">
-                                        <A
-                                          class="join-item btn btn-outline"
-                                          href=move || { format!("?q={}&after={}", q(), next) }
-                                        >
-                                          "Next"
-                                        </A>
-                                      </div>
-                                    }
-                                } else {
-                                    view! { <div></div> }
-                                }}
-                              </div>
-                            }
-                        } else {
-                            view! { <div class="text-lg">"No results."</div> }
+          search_res
+            .get()
+            .map(|res| match res {
+              None => {
+                view! { <div>{err_msg}</div> }
+              }
+              Some(res) => {
+                if !res.torrents.is_empty() {
+                  view! {
+                    <div>
+                      <TorrentListings torrents=res.torrents.into() />
+                      {if let Some(next) = res.next {
+                        view! {
+                          <div class="join grid grid-cols-1">
+                            <A
+                              class="join-item btn btn-outline"
+                              href=move || { format!("?q={}&after={}", q(), next) }
+                            >
+                              "Next"
+                            </A>
+                          </div>
                         }
-                    }
-                })
+                      } else {
+                        view! { <div></div> }
+                      }}
+                    </div>
+                  }
+                } else {
+                  view! { <div class="text-lg">"No results."</div> }
+                }
+              }
+            })
         }}
 
       </Suspense>
@@ -83,7 +83,7 @@ pub fn SearchActivity() -> impl IntoView {
 fn TorrentListings(torrents: MaybeSignal<Vec<Torrent>>) -> impl IntoView {
   view! {
     <For each=move || torrents.get() key=|t| t.infohash.clone() let:child>
-      <TorrentListing torrent=child/>
+      <TorrentListing torrent=child />
     </For>
   }
 }
@@ -107,19 +107,19 @@ fn TorrentListing(torrent: Torrent) -> impl IntoView {
         <div class="flex justify-between text-lg">
           <div class=row_c>
             <span class=icon_c>
-              <DownloadSimple size=ICON_SIZE/>
+              <Icon icon=DOWNLOAD_SIMPLE weight=IconWeight::Regular size=ICON_SIZE />
             </span>
             <span class="text-primary">{seeders}</span>
           </div>
           <div class=row_c>
             <span class=icon_c>
-              <Database size=ICON_SIZE/>
+              <Icon icon=DATABASE weight=IconWeight::Regular size=ICON_SIZE />
             </span>
             <span>{bytes}</span>
           </div>
           <div class=row_c>
             <span class=icon_c>
-              <CalendarBlank size=ICON_SIZE/>
+              <Icon icon=CALENDAR_BLANK weight=IconWeight::Regular size=ICON_SIZE />
             </span>
             <span>{created}</span>
           </div>

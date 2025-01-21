@@ -20,11 +20,11 @@ pub fn App() -> impl IntoView {
   provide_context(is_routing);
 
   view! {
-    <Stylesheet id="leptos" href="/pkg/tcl.css"/>
-    <Title formatter=|text| format!("{text} — Torrents-CSV")/>
-    <Link rel="shortcut icon" type_="image/ico" href="/favicon.ico"/>
-    <Meta name="description" content="Torrents-CSV"/>
-    <Meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <Stylesheet id="leptos" href="/pkg/tcl.css" />
+    <Title formatter=|text| format!("{text} — Torrents-CSV") />
+    <Link rel="shortcut icon" type_="image/ico" href="/favicon.ico" />
+    <Meta name="description" content="Torrents-CSV" />
+    <Meta name="viewport" content="width=device-width, initial-scale=1.0" />
     // Uncomment this for testing. Dont know another good way
     // <Script src="
     // <Script>
@@ -36,15 +36,15 @@ pub fn App() -> impl IntoView {
       // shows a progress bar while async data are loading
       // <RoutingProgress is_routing max_time=std::time::Duration::from_millis(250)/>
       <div class="min-h-screen">
-        <TopNav/>
+        <TopNav />
         <main>
           <Routes>
-            <Route path="" view=HomeActivity/>
-            <Route path="search" view=SearchActivity/>
+            <Route path="" view=HomeActivity />
+            <Route path="search" view=SearchActivity />
           </Routes>
         </main>
       </div>
-      <Footer/>
+      <Footer />
     </Router>
   }
 }

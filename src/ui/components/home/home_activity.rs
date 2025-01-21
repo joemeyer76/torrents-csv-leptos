@@ -9,7 +9,7 @@ use leptos_meta::Title;
 pub fn HomeActivity() -> impl IntoView {
   view! {
     <main class="container mx-auto mt-6 px-4">
-      <IntroText/>
+      <IntroText />
     </main>
   }
 }
@@ -17,7 +17,7 @@ pub fn HomeActivity() -> impl IntoView {
 #[component]
 fn IntroText() -> impl IntoView {
   view! {
-    <Title text="Home"/>
+    <Title text="Home" />
 
     <div class="flex flex-col space-y-4 text-xl">
       <p>

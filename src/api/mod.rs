@@ -71,7 +71,7 @@ where
   let client = reqwest::Client::new();
 
   let json = client
-    .get(&build_fetch_query(endpoint(), form))
+    .get(build_fetch_query(endpoint(), form))
     .send()
     .await?
     .text()

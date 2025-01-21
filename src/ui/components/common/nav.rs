@@ -4,7 +4,7 @@ use crate::{
 };
 use leptos::*;
 use leptos_router::*;
-use phosphor_leptos::{Database, MagnifyingGlass};
+use phosphor_leptos::{Icon, IconWeight, DATABASE, MAGNIFYING_GLASS};
 
 #[component]
 pub fn TopNav() -> impl IntoView {
@@ -15,7 +15,7 @@ pub fn TopNav() -> impl IntoView {
       <div class="flex-1">
         <A href="" class="btn btn-ghost normal-case text-xl">
           <span class="w-8 h-8 mr-1">
-            <Database size=ICON_SIZE/>
+            <Icon icon=DATABASE weight=IconWeight::Regular size=ICON_SIZE />
           </span>
           <span>"Torrents-CSV"</span>
         </A>
@@ -34,18 +34,18 @@ pub fn TopNav() -> impl IntoView {
               <Show
                 when=move || is_routing.get()
                 fallback=|| {
-                    view! {
-                      <button type="submit" class="btn btn-square join-item">
-                        <span class="w-5 h-5 join-item">
-                          <MagnifyingGlass size=ICON_SIZE/>
-                        </span>
-                      </button>
-                    }
+                  view! {
+                    <button type="submit" class="btn btn-square join-item">
+                      <span class="w-5 h-5 join-item">
+                        <Icon icon=MAGNIFYING_GLASS weight=IconWeight::Regular size=ICON_SIZE />
+                      </span>
+                    </button>
+                  }
                 }
               >
 
                 <button disabled class="btn btn-square join-item">
-                  <Spinner/>
+                  <Spinner />
                 </button>
               </Show>
             </div>
