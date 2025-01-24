@@ -1,6 +1,7 @@
 use crate::errors::AppError;
 use leptos::Serializable;
 use serde::Serialize;
+#[cfg(feature = "ssr")]
 use serde_json::Value;
 
 pub mod search;
@@ -50,12 +51,13 @@ where
 
   // Return the error response json as an error
   Response::de(&json).map_err(|_| AppError::APIError {
-    error: json_deser_err(&json),
+    error: "Error".to_string()
   })
 }
 
 /// Used if you hit a deser error, which usually means a LemmyAPI error
 /// Of type {error: string}
+#[cfg(feature = "ssr")]
 fn json_deser_err(json: &str) -> String {
   serde_json::from_str(json)
     .map(|v: Value| v["error"].as_str().unwrap_or("Unknown").to_string())
