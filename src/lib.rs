@@ -26,10 +26,8 @@ pub fn App() -> impl IntoView {
     <Meta name="description" content="Torrents-CSV" />
     <Meta name="viewport" content="width=device-width, initial-scale=1.0" />
     // Uncomment this for testing. Dont know another good way
-    // <Script src="
-    // <Script>
-    // eruda.init();
-    // </Script>
+    // <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+    // <script>eruda.init();</script>
 
     // adding `set_is_routing` causes the router to wait for async data to load on new pages
     <Router set_is_routing>

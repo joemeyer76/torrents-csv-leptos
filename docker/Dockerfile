@@ -34,8 +34,8 @@ COPY --from=node /build/node_modules ./node_modules
 COPY --from=node /usr/local/bin /usr/local/bin
 
 # Build the release
-ENV LEPTOS_TAILWIND_VERSION v3.3.6
-ENV LEPTOS_WASM_OPT_VERSION version_119
+ENV LEPTOS_TAILWIND_VERSION=v3.3.6
+ENV LEPTOS_WASM_OPT_VERSION=version_121
 RUN cargo leptos build --release
 
 # Compress with upx
@@ -47,9 +47,9 @@ WORKDIR /app
 COPY --from=builder /build/target/release/tcl /app/
 COPY --from=builder /build/target/site /app/site
 
-ENV APP_ENVIRONMENT "production"
-ENV LEPTOS_SITE_ROOT "/app/site"
-ENV LEPTOS_SITE_ADDR "0.0.0.0:3000"
+ENV APP_ENVIRONMENT="production"
+ENV LEPTOS_SITE_ROOT="site"
+ENV LEPTOS_SITE_ADDR="0.0.0.0:3000"
 
 EXPOSE 3000
 
