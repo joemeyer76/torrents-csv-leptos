@@ -20,7 +20,7 @@ RUN tar -xvf cargo-binstall-x86_64-unknown-linux-musl.tgz
 RUN cp cargo-binstall /usr/local/cargo/bin
 
 # Install cargo-leptos
-RUN cargo binstall cargo-leptos -y
+RUN cargo binstall cargo-leptos@0.2.26 -y
 
 # Add the targets
 RUN rustup target add wasm32-unknown-unknown
