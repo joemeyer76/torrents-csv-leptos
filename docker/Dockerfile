@@ -2,6 +2,7 @@ FROM node AS node
 WORKDIR /build
 
 # Enable corepack to use pnpm
+RUN npm i -g -f corepack
 RUN corepack enable
 
 # Cache deps
@@ -13,14 +14,12 @@ FROM rustlang/rust:nightly-bullseye AS builder
 # Install upx
 RUN apt update && apt install -y upx-ucl
 
-# Install cargo-binstall, which makes it easier to install other
-# cargo extensions like cargo-leptos
-RUN wget https://github.com/cargo-bins/cargo-binstall/releases/latest/download/cargo-binstall-x86_64-unknown-linux-musl.tgz
-RUN tar -xvf cargo-binstall-x86_64-unknown-linux-musl.tgz
-RUN cp cargo-binstall /usr/local/cargo/bin
+# Install cargo-binstall
+RUN curl -L --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/cargo-bins/cargo-binstall/main/install-from-binstall-release.sh | bash
 
-# Install cargo-leptos
-RUN cargo binstall cargo-leptos@0.2.26 -y
+# Install cargo-leptos and wasm-bindgen
+RUN cargo binstall cargo-leptos --no-confirm
+RUN cargo binstall wasm-bindgen-cli@0.2.100 --no-confirm
 
 # Add the targets
 RUN rustup target add wasm32-unknown-unknown
@@ -35,7 +34,6 @@ COPY --from=node /usr/local/bin /usr/local/bin
 
 # Build the release
 ENV LEPTOS_TAILWIND_VERSION=v3.3.6
-ENV LEPTOS_WASM_OPT_VERSION=version_121
 RUN cargo leptos build --release
 
 # Compress with upx
