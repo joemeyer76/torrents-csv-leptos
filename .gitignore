@@ -6,3 +6,8 @@
 target
 node_modules
 style
+
+# docker
+docker/deploy.sh
+docker/init-database.*
+docker/torrents.csv
