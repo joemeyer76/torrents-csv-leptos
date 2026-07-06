@@ -6,3 +6,4 @@
 target
 node_modules
 style
+docker/deploy.sh
