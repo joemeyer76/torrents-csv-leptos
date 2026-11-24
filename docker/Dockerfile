@@ -14,7 +14,10 @@ RUN rustup target add wasm32-unknown-unknown
 WORKDIR /build
 COPY . .
 
-# Build the release (plain CSS in assets/, so no Tailwind/Node step)
+# Build the release (plain CSS in assets/, so no Tailwind/Node step).
+# Pin wasm-opt so cargo-leptos doesn't ask GitHub's API for the latest version:
+# that lookup gets rate-limited (403) and fails the build.
+ENV LEPTOS_WASM_OPT_VERSION=version_123
 RUN cargo leptos build --release
 
 FROM debian:bookworm-slim
