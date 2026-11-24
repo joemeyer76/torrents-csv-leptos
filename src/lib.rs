@@ -1,5 +1,4 @@
 use crate::ui::components::{
-  common::nav::{Footer, TopNav},
   home::home_activity::HomeActivity,
   search::search_activity::SearchActivity,
 };
@@ -21,9 +20,15 @@ pub fn App() -> impl IntoView {
 
   view! {
     <Stylesheet id="leptos" href="/pkg/tcl.css" />
-    <Title formatter=|text| format!("{text} — Torrents-CSV") />
-    <Link rel="shortcut icon" type_="image/ico" href="/favicon.ico" />
-    <Meta name="description" content="Torrents-CSV" />
+    <Link rel="preconnect" href="https://fonts.googleapis.com" />
+    <Link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+    <Stylesheet href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" />
+    <Stylesheet id="avocadio" href="/avocadio.css" />
+    <Title formatter=|text| format!("{text} — Avocadio torrents") />
+    <Link rel="icon" type_="image/svg+xml" href="/icon.svg" />
+    <Link rel="icon" type_="image/png" sizes="32x32" href="/favicon-32.png" />
+    <Meta name="description" content="Avocadio torrent search" />
+    <Meta name="theme-color" content="#6f7f2e" />
     <Meta name="viewport" content="width=device-width, initial-scale=1.0" />
     // Uncomment this for testing. Dont know another good way
     // <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
@@ -33,16 +38,12 @@ pub fn App() -> impl IntoView {
     <Router set_is_routing>
       // shows a progress bar while async data are loading
       // <RoutingProgress is_routing max_time=std::time::Duration::from_millis(250)/>
-      <div class="min-h-screen">
-        <TopNav />
-        <main>
-          <Routes>
-            <Route path="" view=HomeActivity />
-            <Route path="search" view=SearchActivity />
-          </Routes>
-        </main>
+      <div class="app">
+        <Routes>
+          <Route path="" view=HomeActivity />
+          <Route path="search" view=SearchActivity />
+        </Routes>
       </div>
-      <Footer />
     </Router>
   }
 }

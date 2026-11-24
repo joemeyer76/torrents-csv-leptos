@@ -1,85 +1,58 @@
-use crate::{
-  ui::components::common::Spinner,
-  utils::{HERETIC_URL, ICON_SIZE},
-};
+use crate::{ui::components::common::Spinner, utils::ICON_SIZE};
 use leptos::*;
 use leptos_router::*;
-use phosphor_leptos::{Icon, IconWeight, DATABASE, MAGNIFYING_GLASS};
+use phosphor_leptos::{Icon, IconWeight, MAGNIFYING_GLASS};
 
+/// The Avocadio tile and wordmark, with "torrents" in pit brown. Links home.
 #[component]
-pub fn TopNav() -> impl IntoView {
-  let is_routing = use_context::<ReadSignal<bool>>().expect("Missing is_routing");
-
+pub fn Logo(#[prop(optional)] big: bool) -> impl IntoView {
+  let class = if big { "brand big" } else { "brand" };
   view! {
-    <div class="navbar bg-base-100 shadow-xl">
-      <div class="flex-1">
-        <A href="" class="btn btn-ghost normal-case text-xl">
-          <span class="w-8 h-8 mr-1">
-            <Icon icon=DATABASE weight=IconWeight::Regular size=ICON_SIZE />
-          </span>
-          <span>"Torrents-CSV"</span>
-        </A>
-      </div>
-      <div class="flex-none gap-2">
-        <Form method="GET" action="search">
-          <div class="form-control">
-            <div class="join">
-
-              <input
-                type="text"
-                name="q"
-                placeholder="Search..."
-                class="input input-bordered w-24 md:w-auto join-item"
-              />
-              <Show
-                when=move || is_routing.get()
-                fallback=|| {
-                  view! {
-                    <button type="submit" class="btn btn-square join-item">
-                      <span class="w-5 h-5 join-item">
-                        <Icon icon=MAGNIFYING_GLASS weight=IconWeight::Regular size=ICON_SIZE />
-                      </span>
-                    </button>
-                  }
-                }
-              >
-
-                <button disabled class="btn btn-square join-item">
-                  <Spinner />
-                </button>
-              </Show>
-            </div>
-          </div>
-        </Form>
-      </div>
-    </div>
+    <A href="/" class=class>
+      <img src="/icon.svg" alt="" />
+      <span>"Avocadio"</span>
+      <span class="tag">"torrents"</span>
+    </A>
   }
 }
 
+/// Pill search box. `big` is the home page version, with a button under it.
 #[component]
-pub fn Footer() -> impl IntoView {
+pub fn SearchBox(
+  #[prop(optional)] big: bool,
+  #[prop(optional, into)] value: Option<Signal<String>>,
+) -> impl IntoView {
+  let is_routing = use_context::<ReadSignal<bool>>().expect("Missing is_routing");
+  let value = value.unwrap_or_else(|| Signal::derive(String::new));
+  let class = if big { "search-form big" } else { "search-form" };
+
   view! {
-    <footer class="sticky top-[100vh] footer mt-10 p-10 bg-neutral text-neutral-content">
-      <p class="inline-block text-xl">
-        <b>"Torrents-csv"</b>
-        " by "
-        <a href=HERETIC_URL class="link">
-          "Heretic"
-        </a>
-        ". Made with "
-        <a href="https://www.rust-lang.org" class="link">
-          "Rust"
-        </a>
-        ", "
-        <a href="https://actix.rs" class="link">
-          "Actix"
-        </a>
-        ", and "
-        <a href="https://leptos.dev" class="link">
-          "Leptos"
-        </a>
-        "."
-      </p>
-    </footer>
+    <Form method="GET" action="/search" class=class>
+      <div class="search-box">
+        <span class="icon">
+          <Icon icon=MAGNIFYING_GLASS weight=IconWeight::Bold size=ICON_SIZE />
+        </span>
+        <input
+          type="search"
+          name="q"
+          placeholder="Search torrents"
+          aria-label="Search torrents"
+          autocomplete="off"
+          autofocus=big
+          value=move || value.get()
+          prop:value=move || value.get()
+        />
+        <Show when=move || is_routing.get()>
+          <Spinner />
+        </Show>
+      </div>
+      <Show when=move || big>
+        <div class="search-actions">
+          <button type="submit" class="btn primary">
+            "Search torrents"
+          </button>
+        </div>
+      </Show>
+    </Form>
   }
 }
