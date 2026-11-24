@@ -9,7 +9,7 @@ pub fn Logo(#[prop(optional)] big: bool) -> impl IntoView {
   let class = if big { "brand big" } else { "brand" };
   view! {
     <A href="/" class=class>
-      <img src="/icon.svg" alt="" />
+      <img src="/assets/icon.svg" alt="" />
       <span>"Avocadio"</span>
       <span class="tag">"torrents"</span>
     </A>

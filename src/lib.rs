@@ -19,14 +19,13 @@ pub fn App() -> impl IntoView {
   provide_context(is_routing);
 
   view! {
-    <Stylesheet id="leptos" href="/pkg/tcl.css" />
     <Link rel="preconnect" href="https://fonts.googleapis.com" />
     <Link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
     <Stylesheet href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" />
-    <Stylesheet id="avocadio" href="/avocadio.css" />
+    <Stylesheet id="avocadio" href="/assets/avocadio.css" />
     <Title formatter=|text| format!("{text} — Avocadio torrents") />
-    <Link rel="icon" type_="image/svg+xml" href="/icon.svg" />
-    <Link rel="icon" type_="image/png" sizes="32x32" href="/favicon-32.png" />
+    <Link rel="icon" type_="image/svg+xml" href="/assets/icon.svg" />
+    <Link rel="icon" type_="image/png" sizes="32x32" href="/assets/favicon-32.png" />
     <Meta name="description" content="Avocadio torrent search" />
     <Meta name="theme-color" content="#6f7f2e" />
     <Meta name="viewport" content="width=device-width, initial-scale=1.0" />
