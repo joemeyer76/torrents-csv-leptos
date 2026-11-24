@@ -7,12 +7,14 @@ RUN curl -L --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/ca
 RUN cargo binstall cargo-leptos@0.3.11 --no-confirm
 RUN cargo binstall wasm-bindgen-cli@0.2.100 --no-confirm
 
-# Add the targets
-RUN rustup target add wasm32-unknown-unknown
-
 # Copy the data
 WORKDIR /build
 COPY . .
+
+# Add the wasm target *after* the copy, from inside /build: rust-toolchain.toml
+# makes rustup auto-install its own nightly here, and that toolchain needs the
+# target (adding it earlier only covers the image's toolchain).
+RUN rustup target add wasm32-unknown-unknown
 
 # Build the release (plain CSS in assets/, so no Tailwind/Node step).
 # Pin wasm-opt so cargo-leptos doesn't ask GitHub's API for the latest version:
